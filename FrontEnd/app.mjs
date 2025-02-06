@@ -5,9 +5,9 @@ const works = await response.json();
 console.log(works);
 
 // Gallerie interactive
+const gallery = document.querySelector(".gallery");
 
 function displayWorks() {
-    const gallery = document.querySelector(".gallery");
     gallery.innerText = "";
     for (let i = 0; i < works.length; i++) {
         const divElement = document.createElement("div");
@@ -23,7 +23,8 @@ function displayWorks() {
 
 displayWorks();
 
-// Ajout dynamique des filtres
+// Ajout dynamique et auto des filtres
+// ***** Choix fait pour pouvoir ajouter automatiquement un filtre si une nouvelle catégorie est créée pour un work
 
 function displayFilters() {
     const filters = document.querySelector(".filters");
@@ -33,7 +34,7 @@ function displayFilters() {
             setFilters.add(works[i].category.name);
             const btnFilter = document.createElement("button");
             btnFilter.innerText = works[i].category.name;
-            btnFilter.id = `${works[i].category.name}`;
+            btnFilter.id = `${works[i].category.id}`;
             filters.appendChild(btnFilter);
         }
     }
@@ -44,10 +45,11 @@ displayFilters();
 // Ajout des listener pour filtres
 
 const btnFilterAll = document.getElementById("all");
-const btnFilterObjects = document.getElementById("objects");
-const btnFilterApt = document.getElementById("apt");
-const btnFilterHotels = document.getElementById("hotels");
+const btnFilterObjects = document.getElementById("1");
+const btnFilterApt = document.getElementById("2");
+const btnFilterHotels = document.getElementById("3");
 
+// Filtre "Tous"
 btnFilterAll.addEventListener("click", function () {
     gallery.innerHTML = "";
     const worksFiltered = works.filter(function (work) {
@@ -66,10 +68,11 @@ btnFilterAll.addEventListener("click", function () {
     }
 });
 
+// Filtre Objets
 btnFilterObjects.addEventListener("click", function () {
     gallery.innerHTML = "";
     const worksFiltered = works.filter(function (work) {
-        return work.categoryId === 1
+        return work.categoryId === `${work.category.id}`
     });
     console.log(worksFiltered)
     for (let i = 0; i < worksFiltered.length; i++) {
@@ -84,6 +87,7 @@ btnFilterObjects.addEventListener("click", function () {
     }
 });
 
+// Filtre Appartements
 btnFilterApt.addEventListener("click", function () {
     gallery.innerHTML = "";
     const worksFiltered = works.filter(function (work) {
@@ -102,6 +106,7 @@ btnFilterApt.addEventListener("click", function () {
     }
 });
 
+// Filtre Hotels & restaurants
 btnFilterHotels.addEventListener("click", function () {
     gallery.innerHTML = "";
     const worksFiltered = works.filter(function (work) {
