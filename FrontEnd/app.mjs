@@ -82,3 +82,34 @@ btnFilterAll.addEventListener("click", function () {
         divElement.appendChild(titleElement);
     }
 });
+
+//--------Mode Edition----------
+
+console.log(!!localStorage.token);
+
+if (!!localStorage.token){
+    // Suppression des filtres
+    const filters = document.querySelector(".filters");
+    filters.innerText = "";
+    
+    // Ajout "modifier" à côté de "Mes Projets"
+    const modifyElement = document.createElement("p");
+    modifyElement.innerHTML = '<i class="fa-regular fa-pen-to-square"></i> modifier';
+    const projectTitleElement = document.querySelector(".title");
+    projectTitleElement.appendChild(modifyElement);
+    
+    // Ajout du bandeau noir pour le mode édition
+    const blackHeaderElement = document.createElement("div");
+    blackHeaderElement.id = "black-header";
+    blackHeaderElement.innerHTML = '<p><i class="fa-regular fa-pen-to-square"></i> Mode édition</p>';
+    const headerElement = document.querySelector("header");
+    const headerDiv = document.getElementById("header");
+    headerElement.insertBefore(blackHeaderElement, headerDiv);
+    
+    //remplace login par logout
+    logElement.innerText = "logout";
+    logElement.addEventListener("click", () => {
+        localStorage.clear()
+        window.location.href = "./index.html"
+    })
+}

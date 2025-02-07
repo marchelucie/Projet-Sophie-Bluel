@@ -22,7 +22,7 @@ function addListenerLogin() {
             const data = await response.json();
             localStorage.setItem("token", data.token);
             console.log("Connexion réussie");
-            window.location.href = "./index.html";
+            window.location.href = "./index-edit.html";
 
         } catch (error) {
             console.error("Erreur lors de la connexion : ", error)

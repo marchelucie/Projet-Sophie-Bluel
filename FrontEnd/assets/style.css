@@ -30,6 +30,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	background-color: #fffef8;
 }
 ol, ul {
 	list-style: none;
@@ -53,7 +54,19 @@ body {
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
-header {
+
+#black-header{
+	background-color: black;
+	height: 50px;
+	align-content: center;
+}
+
+#black-header p{
+	color:white;
+	text-align: center;
+}
+
+#header {
 	display: flex;
 	justify-content: space-between;
 	margin: 50px 0
@@ -121,9 +134,23 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
-#portfolio h2 {
+
+.title{
+	display: flex;
+	justify-content: center;
+	gap : 2em;
+	align-items: center;
+	margin-bottom: 4em;
+	margin-top: 10em;
+}
+
+.title h2 {
 	text-align: center;
-	margin-bottom: 1em;
+	align-content: center;
+}
+
+#modify:hover{
+	cursor:pointer;
 }
 
 .filters{
