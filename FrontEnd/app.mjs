@@ -107,9 +107,10 @@ if (!!localStorage.token){
     headerElement.insertBefore(blackHeaderElement, headerDiv);
     
     //remplace login par logout
+    let logElement = document.querySelector("#header li a");
     logElement.innerText = "logout";
+    logElement.href = "./index.html";
     logElement.addEventListener("click", () => {
         localStorage.clear()
-        window.location.href = "./index.html"
     })
 }
