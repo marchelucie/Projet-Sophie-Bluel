@@ -41,8 +41,17 @@
 	</section>
 	<section id="portfolio">
 		<div class="title">
-			<h2>Mes Projets</h2><p id="modify"></p>
+			<h2>Mes Projets</h2>
 		</div>
+		<!-- Modale cachée, gérée via JS -->
+		<aside class="modal" id="modal1" aria-hidden="true" role="dialog" style="display:none">
+			<div class='modal-wrapper'>
+				<div id="close"><i class="fa-solid fa-xmark"></i></div>
+				<h3>Galerie photo</h3>
+				<div class='modal-gallery'></div>
+				<input type="submit" value="Ajouter une photo">
+			</div>
+		</aside>
 		<div class="filters">
 			<button id="all">Tous</button>
 		</div>

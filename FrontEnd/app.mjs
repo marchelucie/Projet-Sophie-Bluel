@@ -27,7 +27,7 @@ displayWorks(works);
 // -- Choix fait pour pouvoir ajouter automatiquement un filtre si une nouvelle catégorie est créée pour un work --
 
 //Fonction d'automatisation des filtres
-function filterWorks(categoryId, works){
+function filterWorks(categoryId, works) {
     gallery.innerHTML = "";
     const worksFiltered = works.filter(function (work) {
         return work.categoryId === categoryId
@@ -85,18 +85,20 @@ btnFilterAll.addEventListener("click", function () {
 
 //--------Mode Edition----------
 
-console.log(!!localStorage.token);
-
-if (!!localStorage.token){
+function editMode() {
     // Suppression des filtres
     const filters = document.querySelector(".filters");
     filters.innerText = "";
-    
+
     // Ajout "modifier" à côté de "Mes Projets"
-    const modifyElement = document.createElement("p");
+    const modifyElement = document.createElement("a");
+    modifyElement.id = "modify";
+    modifyElement.href = "#modal1";
     modifyElement.innerHTML = '<i class="fa-regular fa-pen-to-square"></i> modifier';
     const projectTitleElement = document.querySelector(".title");
     projectTitleElement.appendChild(modifyElement);
+
+    displayModal();
     
     // Ajout du bandeau noir pour le mode édition
     const blackHeaderElement = document.createElement("div");
@@ -113,4 +115,50 @@ if (!!localStorage.token){
     logElement.addEventListener("click", () => {
         localStorage.clear()
     })
+}
+// Ajout de la modale
+
+function modalGallery() {
+    const modalGallery = document.querySelector(".modal-gallery");
+    modalGallery.innerHTML = "";
+    for (let i = 0; i < works.length; i++) {
+        const divElement = document.createElement("div");
+        modalGallery.appendChild(divElement);
+        const trashElement = document.createElement("i");
+        trashElement.id = "trash-bin";
+        trashElement.className = "fa-solid fa-trash-can";
+        divElement.appendChild(trashElement);
+        const imageElement = document.createElement("img");
+        imageElement.src = works[i].imageUrl;
+        divElement.appendChild(imageElement);
+    }
+    console.log(modalGallery)
+}
+
+ // Affichage de la modale
+function displayModal () {
+    const modifyElement = document.getElementById("modify");
+    const modal = document.getElementById("modal1");
+    const closeButton = document.getElementById("close");
+    //Ouverture
+    modifyElement.addEventListener("click", () => {
+        modal.style.display="flex";
+        modalGallery();
+    });
+
+    // Fermeture
+    closeButton.addEventListener("click", () => {
+        modal.style.display="none";
+    });
+    modal.addEventListener("click", function(event) {
+        if (event.target === this){
+            modal.style.display="none";
+        }
+    });
+}   
+
+console.log(!!localStorage.token);
+
+if (!!localStorage.token) {
+    editMode();
 }
