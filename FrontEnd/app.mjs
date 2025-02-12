@@ -1,7 +1,7 @@
 // ********** Appel API **********
 
 const response = await fetch("http://localhost:5678/api/works");
-const works = await response.json();
+let works = await response.json();
 console.log(works);
 
 // ********** Galerie interactive **********
@@ -99,7 +99,7 @@ function editMode() {
     projectTitleElement.appendChild(modifyElement);
 
     displayModal();
-    
+
     // Ajout du bandeau noir pour le mode édition
     const blackHeaderElement = document.createElement("div");
     blackHeaderElement.id = "black-header";
@@ -107,55 +107,113 @@ function editMode() {
     const headerElement = document.querySelector("header");
     const headerDiv = document.getElementById("header");
     headerElement.insertBefore(blackHeaderElement, headerDiv);
-    
+
     //remplace login par logout
     let logElement = document.querySelector("#header li a");
     logElement.innerText = "logout";
     logElement.href = "./index.html";
     logElement.addEventListener("click", () => {
         localStorage.clear()
-    })
+    });
+
 }
 // Ajout de la modale
 
 function modalGallery() {
     const modalGallery = document.querySelector(".modal-gallery");
+    const modalTitle = document.getElementById("modal-title");
     modalGallery.innerHTML = "";
     for (let i = 0; i < works.length; i++) {
         const divElement = document.createElement("div");
         modalGallery.appendChild(divElement);
         const trashElement = document.createElement("i");
-        trashElement.id = "trash-bin";
+        trashElement.id = "trash-bin" + `${works[i].id}`;
         trashElement.className = "fa-solid fa-trash-can";
         divElement.appendChild(trashElement);
         const imageElement = document.createElement("img");
         imageElement.src = works[i].imageUrl;
         divElement.appendChild(imageElement);
     }
-    console.log(modalGallery)
 }
 
- // Affichage de la modale
-function displayModal () {
+
+// Affichage de la modale (utilise modalGallery et deleteWork)
+function displayModal() {
     const modifyElement = document.getElementById("modify");
     const modal = document.getElementById("modal1");
     const closeButton = document.getElementById("close");
     //Ouverture
     modifyElement.addEventListener("click", () => {
-        modal.style.display="flex";
+        modal.style.display = "flex";
+        document.body.classList.add("modal-open");
         modalGallery();
+        deleteWork();
+        addWork();
     });
 
     // Fermeture
     closeButton.addEventListener("click", () => {
-        modal.style.display="none";
+        modal.style.display = "none";
+        document.body.classList.remove("modal-open");
     });
-    modal.addEventListener("click", function(event) {
-        if (event.target === this){
-            modal.style.display="none";
+    modal.addEventListener("click", function (event) {
+        if (event.target === this) {
+            modal.style.display = "none";
+            document.body.classList.remove("modal-open");
         }
     });
-}   
+
+}
+
+// Suppression des projets
+function deleteWork() {
+    const token = localStorage.getItem("token");
+    for (let i = 0; i < works.length; i++) {
+        const trashElement = document.getElementById(`trash-bin${works[i].id}`);
+        trashElement.addEventListener("click", async () => {
+            const workToDelete = {
+                id: works[i].id
+            };
+            const chargeUtile = JSON.stringify(workToDelete);
+            try {
+                const response = await fetch(`http://localhost:5678/api/works/${works[i].id}`, {
+                    method: "DELETE",
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
+                    },
+                    body: chargeUtile
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP : ${response.status}`);
+                }
+
+                console.log(`Projet ${works[i].id} supprimé avec succès !`);
+                
+                //Retire l'élèment du DOM, permet de voir la suppresion sans rechargement de la page
+                works = works.filter(work => work.id !== works[i].id); 
+                //Regénère la galerie
+                modalGallery();
+                //
+                deleteWork();
+
+            } catch (error) {
+                console.error("Erreur lors de la suppression : ", error)
+            }
+        })
+    }
+}
+
+function addWork() {
+    const addPictureBtn = document.getElementById("add-picture");
+    addPictureBtn.addEventListener("click", () => {
+        const gallery = document.getElementById("wrapper1");
+        const addPicture = document.getElementById("wrapper2");
+        gallery.style.display = "none";
+        addPicture.style.display = "flex";
+    })
+}
 
 console.log(!!localStorage.token);
 

@@ -67,6 +67,7 @@ a {
 	background-color: black;
 	height: 50px;
 	align-content: center;
+	width: 100%;
 }
 
 #black-header p{
@@ -161,8 +162,13 @@ li:hover, li a:hover {
 	cursor:pointer;
 }
 
+body.modal-open {
+    overflow:hidden;
+}
+
 #modal1{
 	position: fixed;
+	overflow: auto;
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -173,42 +179,56 @@ li:hover, li a:hover {
 }
 
 .modal-wrapper{
-	overflow:auto;
-	width: 630px;
+	overflow: auto;
+	min-width: 680px;
 	max-width: calc(100vw - 20px);
-	height: 688px;
 	max-height: calc(100vh - 20px);
-	justify-content: center;
 	background-color: white;
-	padding:25px;
+	padding:25px 35px 25px 35px;
 	border-radius: 10px;
-	justify-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .modal-wrapper h3{
 	font-size: 26px;
 }
 
-#close{
-	justify-self: flex-end;
+.hide-modal{
+	width: 100%;
+	display: flex;
+}
 
+#wrapper1 .hide-modal{
+	justify-content: flex-end;
+}
+
+#wrapper2 .hide-modal{
+	justify-content: space-between;
+}
+
+#close, #back, #add-work, .fa-trash-can{
+	cursor:pointer;
 }
 
 .modal-gallery{
 	display: grid;
-	width: 420px;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-template-columns: repeat(5, 1fr);
+	width: auto;
+	height: 100%;
 	gap: 0.5em;
 	row-gap: 1em;
 	padding-bottom: 50px;
 	border-bottom : 1px solid #b3b3b3;
 	margin-top : 50px;
 }
+
 .modal-gallery div{
 	position: relative;
 }
 
-#trash-bin{
+.fa-trash-can{
 	position: absolute;
 	right:5px;
 	top:5px;
@@ -217,13 +237,12 @@ li:hover, li a:hover {
 	background-color: black;
 	padding: 3px 4px;
 	border-radius: 2px;
-	cursor: pointer;
 }
 
 .modal-gallery img{
-	max-width: 77px ;
+	width: 77px ;
 }
-.modal-wrapper input[type="submit"] {
+.button {
 	border : none;
 	height: 36px;
 	font-size: 14px;
@@ -295,7 +314,7 @@ margin: auto;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"]{
+input[type="submit"], .button{
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
