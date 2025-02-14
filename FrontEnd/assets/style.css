@@ -247,6 +247,42 @@ body.modal-open {
 	height: 36px;
 	font-size: 14px;
 }
+
+#add-file{
+	background-color: #e8f1f6;
+    width: 420px;
+    height: 169px;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    margin-top: 2em;
+}
+
+#add-file button{
+	position: relative;
+	background-color: #CBD6DC;
+	color: #306685;
+	font-family: 'Work Sans';
+	font-size: 14px;
+	font-weight: 500;
+	border: none;
+	width: 173px;
+	height: 36px;
+	border-radius: 50px;
+}
+
+#add-file img{
+
+}
+
+#img-file{
+	visibility: hidden;
+	position: absolute;
+}
+
 .filters{
 	justify-self: center;
 	display: flex;

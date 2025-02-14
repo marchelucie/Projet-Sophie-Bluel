@@ -51,7 +51,7 @@
 				<h2>Mes Projets</h2>
 			</div>
 			<!-- Modale cachée, gérée via JS -->
-			<aside class="modal" id="modal1" aria-hidden="true" role="dialog" style="display:none">
+			<aside class="modal" id="modal1" role="dialog" style="display:none" inert>
 				<div class='modal-wrapper' id="wrapper1">
 					<div class="hide-modal">
 						<div id="close"><i class="fa-solid fa-xmark"></i></div>
@@ -66,8 +66,21 @@
 						<div id="close"><i class="fa-solid fa-xmark"></i></div>
 					</div>
 					<h3>Ajout photo</h3>
-					<div class="input-form"></div>
-					<input type="submit" value="Valider">
+					<form>
+						<div id="add-file">
+							<img src="./assets/images/abajour-tahina.png" alt="" style="height: 100%">
+							<img src="./assets/icons/img-repo.png" alt="">
+							<button><label for="img-file">+ Ajouter photo</label></button>
+							<input type="file" id="img-file" accept=".png, .jpg">
+							<p>jpg, png: 4mo max</p>
+						</div>
+						<label for="img-title">Titre</label>
+						<input type="text" id="img-title">
+						<label for="img-category">Catégorie</label>
+						<select name="img-category" id="img-category">
+						</select>
+					</form>
+					<input class="button" type="submit" value="Valider">
 				</div>
 			</aside>
 			<div class="filters">

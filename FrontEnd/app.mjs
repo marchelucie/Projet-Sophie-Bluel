@@ -146,20 +146,24 @@ function displayModal() {
     modifyElement.addEventListener("click", () => {
         modal.style.display = "flex";
         document.body.classList.add("modal-open");
+        document.getElementById("modal1").removeAttribute("inert");
         modalGallery();
         deleteWork();
-        addWork();
+        addWorkModal();
+        addPicture();
     });
 
     // Fermeture
     closeButton.addEventListener("click", () => {
         modal.style.display = "none";
         document.body.classList.remove("modal-open");
+        document.getElementById("modal1").setAttribute("inert", "");
     });
     modal.addEventListener("click", function (event) {
         if (event.target === this) {
             modal.style.display = "none";
             document.body.classList.remove("modal-open");
+            document.getElementById("modal1").setAttribute("inert", "");
         }
     });
 
@@ -205,7 +209,7 @@ function deleteWork() {
     }
 }
 
-function addWork() {
+function addWorkModal() {
     const addPictureBtn = document.getElementById("add-picture");
     addPictureBtn.addEventListener("click", () => {
         const gallery = document.getElementById("wrapper1");
@@ -213,6 +217,21 @@ function addWork() {
         gallery.style.display = "none";
         addPicture.style.display = "flex";
     })
+}
+
+function addPicture() {
+    const imgCategory = document.getElementById("img-category");
+    const setCategory = new Set();
+    for(let i = 0; i<works.length; i++){
+        if(!setCategory.has(works[i]?.categoryId)){
+            setCategory.add(works[i].categoryId);
+            const category = document.createElement("option");
+            category.value = `${works[i].categoryId}`;
+            category.innerText = `${works[i].category.name}`;
+            console.log(category);
+            imgCategory.appendChild(category);
+        }
+    }
 }
 
 console.log(!!localStorage.token);
