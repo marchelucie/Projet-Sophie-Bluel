@@ -178,6 +178,7 @@ function createModal() {
     img2.src = './assets/icons/img-repo.png';
     img2.alt = '';
     const fileButton = document.createElement('button');
+    fileButton.type = "button";
     const fileLabel = document.createElement('label');
     fileLabel.htmlFor = 'img-file';
     fileLabel.textContent = '+ Ajouter photo';
@@ -212,21 +213,19 @@ function createModal() {
     categorySelect.appendChild(defaultOption);
 
     const option1 = document.createElement('option');
-    option1.value = 'Objets';
+    option1.value = '1';
     option1.textContent = 'Objets';
     categorySelect.appendChild(option1);
 
     const option2 = document.createElement('option');
-    option2.value = 'Appartements';
+    option2.value = '2';
     option2.textContent = 'Appartements';
     categorySelect.appendChild(option2);
 
     const option3 = document.createElement('option');
-    option3.value = 'Hotels & restaurants';
+    option3.value = '3';
     option3.textContent = 'Hotels & restaurants';
     categorySelect.appendChild(option3);
-
-    form.append(addFileDiv, titleLabel, titleInput, categoryLabel, categorySelect);
 
     const submitButton = document.createElement('input');
     submitButton.classList.add('button');
@@ -234,7 +233,9 @@ function createModal() {
     submitButton.value = 'Valider';
     submitButton.disabled = true;
 
-    wrapper2.append(hideModal2, title2, form, submitButton);
+    form.append(addFileDiv, titleLabel, titleInput, categoryLabel, categorySelect, submitButton);
+
+    wrapper2.append(hideModal2, title2, form);
 
     modal.append(wrapper1, wrapper2);
     document.body.appendChild(modal);
@@ -311,19 +312,21 @@ function addWorkModal() {
 
 // Ajout de projet par l'utilisateur
 function addPicture() {
-    const addPicture = document.getElementById("img-file");
+    const imgFile = document.getElementById("img-file");
     const addFileDiv = document.getElementById("add-file");
 
-    addPicture.addEventListener("change", (event) => {
+    imgFile.addEventListener("change", (event) => {
+        event.preventDefault();
         const file = event.target.files[0]; // Récupère le fichier sélectionné
 
         if (file) {
-            console.log("Vous avez choisi :", file.name);
+            console.log("Vous avez choisi l'image suivante : ", file.name);
 
             const reader = new FileReader();
             reader.onload = function (e) {
                 addFileDiv.innerHTML = ""; // Vide la div avant d'ajouter la nouvelle image
                 const chosenPictureImg = document.createElement("img");
+                chosenPictureImg.id = "img-work";
                 chosenPictureImg.setAttribute("src", e.target.result);
                 chosenPictureImg.style.maxHeight = "100%"; // Ajuste la taille pour éviter les débordements
                 addFileDiv.appendChild(chosenPictureImg);
@@ -332,21 +335,59 @@ function addPicture() {
         }
     });
 
+
     const submitButton = document.querySelector("#wrapper2 .button");
-    const workTitle = document.getElementById("img-title");
-    const workCategory = document.getElementById("img-category");
+    const inputTitle = document.getElementById("img-title");
+    const inputCategory = document.getElementById("img-category");
+    const form = document.querySelector(".modal-wrapper form");
 
-    workTitle.addEventListener("change", () => {
-        let workTitleValue = workTitle.value;
-        console.log(workTitleValue);
-        return workTitleValue;
-    })
-    workCategory.addEventListener("change", () => {
-        let workCategoryValue = workCategory.value;
-        console.log(workCategoryValue);
-        return workCategoryValue;
-    })
+    function checkForm() {
+        if (imgFile.files.length > 0 && inputTitle.value.trim() !== "" && inputCategory.value !== "") {
+            console.log("Vous pouvez soumettre le formulaire");
+            submitButton.removeAttribute("disabled");
+        } else {
+            submitButton.setAttribute("disabled", "true");
+        }
+    }
 
+    // Ajoute un écouteur d'événements sur chaque champ
+    imgFile.addEventListener("change", checkForm);
+    inputTitle.addEventListener("input", checkForm);
+    inputCategory.addEventListener("change", checkForm);
+
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const file = imgFile.files[0];
+        const formData = new FormData();
+        formData.append("image",file);
+        formData.append("title",inputTitle.value);
+        formData.append("category", parseInt(inputCategory.value));
+        
+        try {
+            const response = await fetch("http://localhost:5678/api/works", {
+                method: "POST",
+                headers : {"Authorization": `Bearer ${localStorage.token}`,},
+                body: formData,
+            })
+
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP : ${response.status}`)
+            } else {
+                console.log("Nouveau projet en ligne !");
+            }
+            const responseData = await response.json();
+            console.log("Réponse de l'API :", responseData);
+        } catch (error) {
+            console.error("Erreur lors du chargement du projet : ", error)
+            let errorMessage = document.getElementById("add-work-error");
+            if (!errorMessage) {
+                errorMessage = document.createElement("p");
+                errorMessage.id = "add-work-error";
+                form.appendChild(errorMessage);
+            }
+            errorMessage.innerText = "Erreur lors du chargement du projet. Veuillez réessayer"
+        }
+    })
 
 
 }
