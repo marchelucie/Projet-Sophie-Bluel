@@ -4,8 +4,14 @@ const response = await fetch("http://localhost:5678/api/works");
 let works = await response.json();
 console.log(works);
 
+const responseCategories = await fetch("http://localhost:5678/api/categories");
+const categories = await responseCategories.json();
+console.log(categories);
+
 // ********** Galerie interactive **********
 const gallery = document.querySelector(".gallery");
+const btnFilterAll = document.getElementById("all");
+btnFilterAll.focus();
 
 function displayWorks(works) {
     gallery.innerText = "";
@@ -30,7 +36,7 @@ displayWorks(works);
 function filterWorks(categoryId, works) {
     gallery.innerHTML = "";
     const worksFiltered = works.filter(function (work) {
-        return work.categoryId === categoryId
+        return work.categoryId === categoryId;
     });
     console.log("Filtrés :", worksFiltered)
     for (let i = 0; i < worksFiltered.length; i++) {
@@ -46,42 +52,41 @@ function filterWorks(categoryId, works) {
 };
 
 // Fonction d'apparition auto des filtres
-function displayFilters(works) {
+async function displayFilters() {
     const filters = document.querySelector(".filters");
-    const setFilters = new Set();
-    for (let i = 0; i < works.length; i++) {
-        if (!setFilters.has(works[i].category.name)) {
-            setFilters.add(works[i].category.name);
+    btnFilterAll.addEventListener("click", function () {
+        gallery.innerHTML = "";
+        const worksFiltered = works.filter(function () {
+            return works
+        });
+        console.log("Filtrés :", worksFiltered);
+        for (let i = 0; i < worksFiltered.length; i++) {
+            const divElement = document.createElement("div");
+            gallery.appendChild(divElement);
+            const imageElement = document.createElement("img");
+            imageElement.src = worksFiltered[i].imageUrl;
+            const titleElement = document.createElement("p");
+            titleElement.innerText = `${worksFiltered[i].title}`;
+            divElement.appendChild(imageElement);
+            divElement.appendChild(titleElement);
+        }
+    });
+    try {
+        for (let i = 0; i < categories.length; i++) {
             const btnFilter = document.createElement("button");
-            btnFilter.innerText = works[i].category.name;
-            btnFilter.id = works[i].category.id;
-            btnFilter.addEventListener("click", () => filterWorks(Number(btnFilter.id), works)); //Appel du listener pour automatisation des filtres
+            btnFilter.innerText = categories[i].name;
+            btnFilter.id = categories[i].id;
+            btnFilter.addEventListener("click", () => filterWorks(categories[i].id, works));
             filters.appendChild(btnFilter);
         }
-    };
+    }
+    catch(error) {
+        console.error()
+    }
 };
 
-displayFilters(works); //Appel de filterWorks() à l'intérieur de displayWorks()
+displayFilters(); //Appel de filterWorks() à l'intérieur de displayWorks()
 
-// Filtre "Tous"
-const btnFilterAll = document.getElementById("all");
-btnFilterAll.addEventListener("click", function () {
-    gallery.innerHTML = "";
-    const worksFiltered = works.filter(function () {
-        return works
-    });
-    console.log("Filtrés :", worksFiltered);
-    for (let i = 0; i < worksFiltered.length; i++) {
-        const divElement = document.createElement("div");
-        gallery.appendChild(divElement);
-        const imageElement = document.createElement("img");
-        imageElement.src = worksFiltered[i].imageUrl;
-        const titleElement = document.createElement("p");
-        titleElement.innerText = `${worksFiltered[i].title}`;
-        divElement.appendChild(imageElement);
-        divElement.appendChild(titleElement);
-    }
-});
 
 //--------Mode Edition----------
 
@@ -121,8 +126,7 @@ function editMode() {
 // Ajout de la modale
 function createModal() {
     const modal = document.createElement('aside');
-    modal.classList.add('modal');
-    modal.id = 'modal1';
+    modal.id = 'modal';
     modal.setAttribute('role', 'dialog');
     modal.style.display = 'none';
     modal.setAttribute('inert', '');
@@ -134,7 +138,7 @@ function createModal() {
     const hideModal1 = document.createElement('div');
     hideModal1.classList.add('hide-modal');
     const close1 = document.createElement('div');
-    close1.id = 'close';
+    close1.id = 'close1';
     close1.innerHTML = "<i class='fa-solid fa-xmark'></i>";
     hideModal1.appendChild(close1);
 
@@ -162,7 +166,7 @@ function createModal() {
     back.id = 'back';
     back.innerHTML = "<i class='fa-solid fa-arrow-left'></i>";
     const close2 = document.createElement('div');
-    close2.id = 'close';
+    close2.id = 'close2';
     close2.innerHTML = "<i class='fa-solid fa-xmark'></i>";
     hideModal2.append(back, close2);
 
@@ -206,9 +210,9 @@ function createModal() {
     categorySelect.id = 'img-category';
 
     const defaultOption = document.createElement('option');
-    defaultOption.value = ''; // Valeur vide
-    defaultOption.textContent = ''; // Texte affiché
-    defaultOption.selected = true; // Sélectionnée par défaut
+    defaultOption.value = '';
+    defaultOption.textContent = '';
+    defaultOption.selected = true;
     defaultOption.disabled = true;
     categorySelect.appendChild(defaultOption);
 
@@ -244,7 +248,6 @@ function createModal() {
 // Création de la galerie dynamique dans la modale avec boutons de suppression
 function modalGallery() {
     const modalGallery = document.querySelector(".modal-gallery");
-    const modalTitle = document.getElementById("modal-title");
     modalGallery.innerHTML = "";
     for (let i = 0; i < works.length; i++) {
         const divElement = document.createElement("div");
@@ -289,7 +292,7 @@ function deleteWork() {
                 works = works.filter(work => work.id !== works[i].id);
                 //Regénère la galerie
                 modalGallery();
-                //
+                displayWorks(works);
                 deleteWork();
 
             } catch (error) {
@@ -317,24 +320,23 @@ function addPicture() {
 
     imgFile.addEventListener("change", (event) => {
         event.preventDefault();
-        const file = event.target.files[0]; // Récupère le fichier sélectionné
+        const file = event.target.files[0];
 
         if (file) {
             console.log("Vous avez choisi l'image suivante : ", file.name);
-
+            // Récupération de l'URL du fichier image pour l'insérer en visualisation dans la modale
             const reader = new FileReader();
             reader.onload = function (e) {
-                addFileDiv.innerHTML = ""; // Vide la div avant d'ajouter la nouvelle image
+                addFileDiv.innerHTML = "";
                 const chosenPictureImg = document.createElement("img");
                 chosenPictureImg.id = "img-work";
                 chosenPictureImg.setAttribute("src", e.target.result);
-                chosenPictureImg.style.maxHeight = "100%"; // Ajuste la taille pour éviter les débordements
+                chosenPictureImg.style.maxHeight = "100%";
                 addFileDiv.appendChild(chosenPictureImg);
             };
             reader.readAsDataURL(file); // Convertit le fichier en URL de données
         }
     });
-
 
     const submitButton = document.querySelector("#wrapper2 .button");
     const inputTitle = document.getElementById("img-title");
@@ -345,12 +347,12 @@ function addPicture() {
         if (imgFile.files.length > 0 && inputTitle.value.trim() !== "" && inputCategory.value !== "") {
             console.log("Vous pouvez soumettre le formulaire");
             submitButton.removeAttribute("disabled");
+            // Le bouton Valider devient fonctionnel une fois que tous les champs sont remplis
         } else {
             submitButton.setAttribute("disabled", "true");
         }
     }
 
-    // Ajoute un écouteur d'événements sur chaque champ
     imgFile.addEventListener("change", checkForm);
     inputTitle.addEventListener("input", checkForm);
     inputCategory.addEventListener("change", checkForm);
@@ -359,14 +361,14 @@ function addPicture() {
         event.preventDefault();
         const file = imgFile.files[0];
         const formData = new FormData();
-        formData.append("image",file);
-        formData.append("title",inputTitle.value);
+        formData.append("image", file);
+        formData.append("title", inputTitle.value);
         formData.append("category", parseInt(inputCategory.value));
-        
+
         try {
             const response = await fetch("http://localhost:5678/api/works", {
                 method: "POST",
-                headers : {"Authorization": `Bearer ${localStorage.token}`,},
+                headers: { "Authorization": `Bearer ${localStorage.token}`, },
                 body: formData,
             })
 
@@ -375,8 +377,14 @@ function addPicture() {
             } else {
                 console.log("Nouveau projet en ligne !");
             }
-            const responseData = await response.json();
-            console.log("Réponse de l'API :", responseData);
+            const newWork = await response.json();
+            console.log("Nouveau projet ajouté :", newWork);
+            works.push(newWork);
+            const modal = document.querySelector("aside");
+            modal.remove();
+            console.log("Existence de la modale : ", !!document.querySelector("aside"));
+            document.body.classList.remove("modal-open");
+            displayWorks(works);
         } catch (error) {
             console.error("Erreur lors du chargement du projet : ", error)
             let errorMessage = document.getElementById("add-work-error");
@@ -395,40 +403,58 @@ function addPicture() {
 // Modale fonctionnelle (utilise les fonctions de createModal() jusqu'à addPicture())
 function displayModal() {
     const modifyElement = document.getElementById("modify");
+    console.log("Existence de la modale : ", !!document.querySelector("aside"));
 
-    // Appeler la fonction pour insérer la modale dans le DOM
-    createModal();
-
-    const modal = document.getElementById("modal1");
-    const closeButton = document.getElementById("close");
-    //Ouverture
     modifyElement.addEventListener("click", () => {
+        //Ouverture
+        // Appeler la fonction pour insérer la modale dans le DOM
+        createModal();
+        const modal = document.getElementById("modal");
         modal.style.display = "flex";
         document.body.classList.add("modal-open");
-        document.getElementById("modal1").removeAttribute("inert");
+        modal.removeAttribute("inert");
         modalGallery();
         deleteWork();
         addWorkModal();
         addPicture();
-    });
-
-    // Fermeture
-    closeButton.addEventListener("click", () => {
-        modal.style.display = "none";
-        document.body.classList.remove("modal-open");
-        document.getElementById("modal1").setAttribute("inert", "");
-    });
-    modal.addEventListener("click", function (event) {
-        if (event.target === this) {
-            modal.style.display = "none";
+        console.log("Existence de la modale : ", !!document.querySelector("aside"));
+        
+        // Fermeture
+        const closeButton1 = document.getElementById("close1");
+        const closeButton2 = document.getElementById("close2");
+        closeButton1.addEventListener("click", () => {
+            //Supprime la modale du DOM lors du click sur le bouton de fermeture
+            modal.remove();
             document.body.classList.remove("modal-open");
-            document.getElementById("modal1").setAttribute("inert", "");
-        }
+            console.log("Existence de la modale : ", !!document.querySelector("aside"));
+        });
+        closeButton2.addEventListener("click", () => {
+            modal.remove();
+            document.body.classList.remove("modal-open");
+            console.log("Existence de la modale : ", !!document.querySelector("aside"));
+        });
+        modal.addEventListener("click", function (event) {
+            if (event.target === this) {
+                //Supprime la modale du DOM lors du click sur l'arrière plan
+                modal.remove();
+                document.body.classList.remove("modal-open");
+                console.log("Existence de la modale : ", !!document.querySelector("aside"));
+            }
+        });
+
+        //Retour
+        const back = document.getElementById("back");
+        back.addEventListener("click", () => {
+            const gallery = document.getElementById("wrapper1");
+            const addPicture = document.getElementById("wrapper2");
+            gallery.style.display = "flex";
+            addPicture.style.display = "none";
+        })
     });
 
 }
 
-console.log(!!localStorage.token);
+console.log("Authorization : ", !!localStorage.token);
 
 if (!!localStorage.token) {
     editMode();

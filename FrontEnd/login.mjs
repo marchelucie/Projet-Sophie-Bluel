@@ -21,7 +21,6 @@ function addListenerLogin() {
 
             const data = await response.json();
             localStorage.setItem("token", data.token);
-            localStorage.setItem("userId", data.userId);
             console.log("Connexion réussie");
             window.location.href = "./index.html";
 
