@@ -3,19 +3,87 @@
    License: none (public domain)
 */
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -23,55 +91,76 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
-*{
+
+* {
 	box-sizing: border-box;
 }
+
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
 	display: block;
 }
+
 body {
 	line-height: 1;
 	background-color: #fffef8;
 }
-ol, ul {
+
+ol,
+ul {
 	list-style: none;
 }
-blockquote, q {
+
+blockquote,
+q {
 	quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
 	content: '';
 	content: none;
 }
+
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
 /** end reset css**/
 body {
 	max-width: 1140px;
-	margin:auto;
-	font-family: 'Work Sans' ;
+	margin: auto;
+	font-family: 'Work Sans';
 	font-size: 14px;
 }
 
 a {
-	color:initial;
+	color: initial;
 	text-decoration: none;
 }
 
-#black-header{
+#black-header {
 	background-color: black;
 	height: 50px;
 	align-content: center;
 	width: 100%;
 }
 
-#black-header p{
-	color:white;
+#black-header p {
+	color: white;
 	text-align: center;
 }
 
@@ -80,11 +169,12 @@ a {
 	justify-content: space-between;
 	margin: 50px 0
 }
+
 section {
 	margin: 50px 0
 }
 
-h1{
+h1 {
 	display: flex;
 	flex-direction: column;
 	font-family: 'Syne';
@@ -93,31 +183,35 @@ h1{
 	color: #B1663C
 }
 
-h1 > span {
+h1>span {
 	font-family: 'Work Sans';
-	font-size:10px;
+	font-size: 10px;
 	letter-spacing: 0.1em;
-;
+	;
 }
 
-h2, button{
+h2,
+button {
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
 	color: #1D6154
 }
+
 nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
 
 }
+
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
 }
 
-li:hover, li a:hover {
+li:hover,
+li a:hover {
 	color: #B1663C;
 	cursor: pointer;
 }
@@ -126,28 +220,33 @@ li:hover, li a:hover {
 	display: flex;
 	align-items: center;
 }
+
 #introduction figure {
 	flex: 1
 }
+
 #introduction img {
 	display: block;
 	margin: auto;
 	width: 80%;
 }
+
 #introduction article {
 	flex: 1
 }
+
 #introduction h2 {
 	margin-bottom: 1em;
 }
+
 #introduction p {
 	margin-bottom: 0.5em;
 }
 
-.title{
+.title {
 	display: flex;
 	justify-content: center;
-	gap : 2em;
+	gap: 2em;
 	align-items: center;
 	margin-bottom: 4em;
 	margin-top: 10em;
@@ -158,15 +257,15 @@ li:hover, li a:hover {
 	align-content: center;
 }
 
-#modify:hover{
-	cursor:pointer;
+#modify:hover {
+	cursor: pointer;
 }
 
 body.modal-open {
-    overflow:hidden;
+	overflow: hidden;
 }
 
-#modal{
+#modal {
 	position: fixed;
 	overflow: auto;
 	top: 0;
@@ -178,103 +277,134 @@ body.modal-open {
 	align-items: center;
 }
 
-.modal-wrapper{
+.modal-wrapper {
 	overflow: auto;
 	min-width: 680px;
 	max-width: calc(100vw - 20px);
 	max-height: calc(100vh - 20px);
 	background-color: white;
-	padding:25px 35px 25px 35px;
+	padding: 25px 35px 25px 35px;
 	border-radius: 10px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 
-.modal-wrapper h3{
+.modal-wrapper h3 {
 	font-size: 26px;
 }
 
-.hide-modal{
+.hide-modal {
 	width: 100%;
 	display: flex;
 }
 
-#wrapper1 .hide-modal{
+#wrapper1 .hide-modal {
 	justify-content: flex-end;
 }
 
-#wrapper2 .hide-modal{
+#wrapper2 .hide-modal {
 	justify-content: space-between;
 }
 
-#close, #back, #add-work, .fa-trash-can{
-	cursor:pointer;
+#close1,
+#close2,
+#back,
+#add-work,
+button,
+button label,
+select,
+#img-work,
+.fa-trash-can {
+	cursor: pointer;
 }
 
-.modal-gallery{
+#back i,
+#close1 i,
+#close2 i{
+	font-size: 21px;
+}
+
+.modal-gallery {
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
 	width: auto;
 	height: 100%;
 	gap: 0.5em;
 	row-gap: 1em;
-	padding-bottom: 50px;
-	border-bottom : 1px solid #b3b3b3;
-	margin-top : 50px;
+	padding-bottom: 2em;
+	border-bottom: 1px solid #b3b3b3;
+	margin-top: 50px;
+	margin-bottom: 2em;
 }
 
-.modal-gallery div{
+.modal-gallery div {
 	position: relative;
-	width: 100%; /* Assure-toi que la div prend toute la place */
-    height: 100px; /* Hauteur fixe pour toutes les divs */
-    overflow: hidden; /* Cache le débordement des images */
+	width: 100%;
+	height: 100px;
+	overflow: hidden;
 }
 
-.fa-trash-can{
+.fa-trash-can {
 	position: absolute;
-	right:5px;
-	top:5px;
+	right: 5px;
+	top: 5px;
 	color: white;
-	font-size : 11px;
+	font-size: 11px;
 	background-color: black;
 	padding: 3px 4px;
 	border-radius: 2px;
 }
 
-.modal-gallery img{
+.modal-gallery img {
 	width: 77px;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+	height: 100%;
+	object-fit: cover;
+	display: block;
 }
 
 .button {
-	border : none;
+	border: none;
 	height: 36px;
 	font-size: 14px;
 	cursor: pointer;
 }
 
-.button:disabled{
+#form-line{
+	border-bottom: #b3b3b3 1px solid;
+	margin-top: 1.5em;
+	margin-bottom: 1.5em;
+}
+
+.button:disabled {
 	background-color: #a7a7a7;
 	cursor: default;
 }
 
-#add-file{
+#add-file {
 	background-color: #e8f1f6;
-    width: 420px;
-    height: 169px;
-    border-radius: 3px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1em;
-    margin-top: 2em;
+	width: 420px;
+	height: 169px;
+	border-radius: 3px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 1em;
+	margin-top: 2em;
+	position:relative;
 }
 
-#add-file button{
+.hidden{
+	display: none;
+}
+
+#img-work{
+	position: absolute;
+	left: auto;
+}
+
+#add-file button {
 	position: relative;
 	background-color: #CBD6DC;
 	color: #306685;
@@ -287,17 +417,31 @@ body.modal-open {
 	border-radius: 50px;
 }
 
-#wrapper2 form{
+#wrapper2 form {
 	display: grid;
 	gap: 1em;
 }
 
-#img-file{
+#img-file {
 	visibility: hidden;
 	position: absolute;
 }
 
-.filters{
+input, select {
+	height: 50px;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	font-family: 'Work Sans';
+	font-size: 14px;
+	font-weight: 400;
+	color: #444444;
+}
+
+input:focus-visible, select:focus-visible {
+	outline: none;
+}
+
+.filters {
 	justify-self: center;
 	display: flex;
 	align-items: center;
@@ -306,7 +450,7 @@ body.modal-open {
 	margin-bottom: 3em;
 }
 
-.filters button{
+.filters button {
 	border: #1D6154 solid 1px;
 	border-radius: 60px;
 	font-size: 16px;
@@ -315,9 +459,10 @@ body.modal-open {
 	background-color: unset;
 }
 
-.filters button:hover, .filters button:focus{
-	background-color:#1D6154;
-	color:white;
+.filters button:hover,
+.filters button:focus {
+	background-color: #1D6154;
+	color: white;
 }
 
 .gallery {
@@ -330,22 +475,27 @@ body.modal-open {
 
 .gallery img {
 	width: 100%;
-
+	height: 407px;
+	object-fit: cover;
 }
+
 #contact {
 	width: 50%;
-margin: auto;
+	margin: auto;
 }
-#contact > * {
+
+#contact>* {
 	text-align: center;
 
 }
-#contact h2{
+
+#contact h2 {
 	margin-bottom: 20px;
 }
+
 #contact form {
 	text-align: left;
-	margin-top:30px;
+	margin-top: 30px;
 	display: flex;
 	flex-direction: column;
 }
@@ -356,23 +506,32 @@ margin: auto;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
 #contact label {
 	margin: 2em 0 1em 0;
 }
+
 #contact textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"], .button{
+input[type="submit"],
+.button {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
-	margin : 2em auto ;
-	width: 180px;
+	justify-self: center;
+	width: 237px;
 	text-align: center;
-	border-radius: 60px ;
+	border-radius: 60px;
+}
+
+
+
+#add-work-success{
+	justify-self: center;
 }
 
 footer nav ul {
@@ -380,4 +539,3 @@ footer nav ul {
 	justify-content: flex-end;
 	margin: 2em
 }
-
