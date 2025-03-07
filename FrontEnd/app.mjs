@@ -110,7 +110,7 @@ function editMode() {
     headerElement.insertBefore(blackHeaderElement, headerDiv);
 
     //remplace login par logout
-    let logElement = document.querySelector("#header li a");
+    let logElement = document.getElementById("login");
     logElement.innerText = "logout";
     logElement.href = "./index.html";
     logElement.addEventListener("click", () => {
@@ -143,12 +143,15 @@ function createModal() {
     const gallery = document.createElement('div');
     gallery.classList.add('modal-gallery');
 
+    const line1 = document.createElement('div');
+    line1.classList.add('line');
+
     const addButton = document.createElement('button');
     addButton.classList.add('button');
     addButton.id = 'add-picture';
     addButton.textContent = 'Ajouter une photo';
 
-    wrapper1.append(hideModal1, title1, gallery, addButton);
+    wrapper1.append(hideModal1, title1, gallery, line1, addButton);
 
     const wrapper2 = document.createElement('div');
     wrapper2.classList.add('modal-wrapper');
@@ -232,10 +235,10 @@ function createModal() {
     submitButton.value = 'Valider';
     submitButton.disabled = true;
 
-    const formLine = document.createElement('div');
-    formLine.id = 'form-line';
+    const line2 = document.createElement('div');
+    line2.classList.add('line');
 
-    form.append(addFileDiv, titleLabel, titleInput, categoryLabel, categorySelect, formLine, submitButton);
+    form.append(addFileDiv, titleLabel, titleInput, categoryLabel, categorySelect, line2, submitButton);
 
     wrapper2.append(hideModal2, title2, form);
 
