@@ -413,6 +413,7 @@ function addPicture() {
             document.querySelector("#add-file input").classList.remove("hidden");
             document.querySelector("#add-file p").classList.remove("hidden");
 
+            displayWorks(works);
             // Message de succès d'ajout
             let successMessage = document.getElementById("add-work-success");
             if (!successMessage) {
