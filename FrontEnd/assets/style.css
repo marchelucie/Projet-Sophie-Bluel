@@ -114,6 +114,8 @@ section {
 body {
 	line-height: 1;
 	background-color: #fffef8;
+	display: grid;
+	justify-content: center;
 }
 
 ol,
@@ -156,7 +158,12 @@ a {
 	background-color: black;
 	height: 50px;
 	align-content: center;
-	width: 100%;
+	width: 100vw;
+	margin: 0;
+	padding: 0;
+	left: 0;
+	box-sizing: border-box;
+	position: relative;
 }
 
 #black-header p {
@@ -164,7 +171,7 @@ a {
 	text-align: center;
 }
 
-#header {
+header {
 	display: flex;
 	justify-content: space-between;
 	margin: 50px 0;
@@ -178,7 +185,8 @@ main {
 }
 
 section {
-	margin: 50px 0
+	margin: 50px 0;
+	display: grid;
 }
 
 h1 {
@@ -435,8 +443,8 @@ select,
 	gap: 1em;
 }
 
-#wrapper2 label{
-	margin-top : 2em;
+#wrapper2 label {
+	margin-top: 2em;
 }
 
 #img-file {
@@ -536,7 +544,7 @@ select:focus-visible {
 #contact textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-	margin-bottom:40px;
+	margin-bottom: 40px;
 }
 
 input[type="submit"],

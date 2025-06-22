@@ -106,8 +106,7 @@ function editMode() {
     blackHeaderElement.id = "black-header";
     blackHeaderElement.innerHTML = '<p><i class="fa-regular fa-pen-to-square"></i> Mode édition</p>';
     const headerElement = document.querySelector("header");
-    const headerDiv = document.getElementById("header");
-    headerElement.insertBefore(blackHeaderElement, headerDiv);
+    document.body.insertBefore(blackHeaderElement, headerElement);
 
     //remplace login par logout
     let logElement = document.getElementById("login");
